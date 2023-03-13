@@ -1,5 +1,7 @@
 import logging
 import os
+from dotenv import load_dotenv
+
 
 from aiogram.types import ParseMode
 from loguru import logger as LOGGER
@@ -8,11 +10,10 @@ from aiogram import Bot, Dispatcher, executor, types
 
 from clients.gpt_node import GptApiClient
 
-API_TOKEN = '5920129044:AAH_6OB6VAFtZqNI6JJR99PttKkO0MMg8ZY'
-
+load_dotenv()
 gpt_node_url = os.environ.get('CHATGPT_TB_GPT_NODE_URL', 'http://127.0.0.1:8000')
 gpt = GptApiClient(gpt_node_url)
-bot = Bot(token=API_TOKEN)
+bot = Bot(token=os.environ.get('5920129044:AAH_6OB6VAFtZqNI6JJR99PttKkO0MMg8ZY'))
 dp = Dispatcher(bot)
 
 def setup_logging():
