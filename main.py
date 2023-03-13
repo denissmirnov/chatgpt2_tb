@@ -2,7 +2,6 @@ import logging
 import os
 from dotenv import load_dotenv
 
-
 from aiogram.types import ParseMode
 from loguru import logger as LOGGER
 
@@ -16,14 +15,18 @@ gpt = GptApiClient(gpt_node_url)
 bot = Bot(token=os.environ.get('API_TOKEN'))
 dp = Dispatcher(bot)
 
+
 def setup_logging():
     logging.basicConfig(level=logging.INFO)
 
+
 setup_logging()
+
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
     await message.reply("Hi!\nI'm ChatGPT bot!\nAsk me something through /ask")
+
 
 @dp.message_handler(commands=['ask'])
 async def ask_gpt(message: types.Message):
@@ -66,6 +69,7 @@ async def ask_gpt(message: types.Message):
         else:
             LOGGER.error(f"Exception during parsing response. res: {response}")
             await message.reply("Some exception happened during parsing response. Please re-ask your question.")
+
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
