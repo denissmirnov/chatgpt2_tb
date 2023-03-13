@@ -13,7 +13,7 @@ from clients.gpt_node import GptApiClient
 load_dotenv()
 gpt_node_url = os.environ.get('CHATGPT_TB_GPT_NODE_URL', 'http://127.0.0.1:8000')
 gpt = GptApiClient(gpt_node_url)
-bot = Bot(token=os.environ.get('5920129044:AAH_6OB6VAFtZqNI6JJR99PttKkO0MMg8ZY'))
+bot = Bot(token=os.environ.get('API_TOKEN'))
 dp = Dispatcher(bot)
 
 def setup_logging():
