@@ -64,7 +64,12 @@ async def ask_gpt(message: types.Message):
     response = await gpt.ask(query, conversation_id, parent_id, account_id)
 
     if response and response.message:
-        msg = Conversation(query=query, answer=response.message, parent_id=response.parent_id, account_id=response.account_id)
+        msg = Conversation(
+            query=query,
+            answer=response.message,
+            parent_id=response.parent_id,
+            account_id=response.account_id
+        )
 
         conversations[conversation_id].append(msg)
 
