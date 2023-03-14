@@ -1,6 +1,7 @@
 import logging
 import os
 import uuid
+from typing import Optional
 
 from dotenv import load_dotenv
 from pydantic import BaseModel
@@ -24,9 +25,9 @@ class Chat(BaseModel):
 
 class Conversation(BaseModel):
     query: str
-    answer: str
-    parent_id: uuid.UUID
-    account_id: uuid.UUID
+    answer: Optional[str]
+    parent_id: Optional[uuid.UUID]
+    account_id: Optional[uuid.UUID]
 
 chats: list[Chat] = []
 conversations: dict[uuid.UUID, list[Conversation]] = {}
