@@ -24,3 +24,15 @@ class AskResponse(BaseModel):
     parent_id: Optional[UUID]
     account_id: Optional[int]
     message: Optional[str]
+
+
+class Chat(BaseModel):
+    chat_id: int
+    conversation_id: UUID
+
+
+class Conversation(BaseModel):
+    query: str
+    answer: Optional[str]
+    parent_id: Optional[UUID]
+    account_id: Optional[int]

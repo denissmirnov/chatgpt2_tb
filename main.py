@@ -1,17 +1,14 @@
 import logging
 import os
 import uuid
-from typing import Optional
-
-from dotenv import load_dotenv
-from pydantic import BaseModel
-
-from aiogram.types import ParseMode
-from loguru import logger as LOGGER
 
 from aiogram import Bot, Dispatcher, executor, types
+from aiogram.types import ParseMode
+from dotenv import load_dotenv
+from loguru import logger as LOGGER
 
 from clients.gpt_node import GptApiClient
+from models.schemas import Conversation, Chat
 
 load_dotenv()
 gpt_node_url = os.environ.get('CHATGPT_TB_GPT_NODE_URL', 'http://127.0.0.1:8000')
@@ -19,23 +16,16 @@ gpt = GptApiClient(gpt_node_url)
 bot = Bot(token=os.environ.get('API_TOKEN'))
 dp = Dispatcher(bot)
 
-class Chat(BaseModel):
-    chat_id: int
-    conversation_id: uuid.UUID
-
-class Conversation(BaseModel):
-    query: str
-    answer: Optional[str]
-    parent_id: Optional[uuid.UUID]
-    account_id: Optional[uuid.UUID]
-
 chats: list[Chat] = []
 conversations: dict[uuid.UUID, list[Conversation]] = {}
+
 
 def setup_logging():
     logging.basicConfig(level=logging.INFO)
 
+
 setup_logging()
+
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
@@ -44,6 +34,7 @@ async def start(message: types.Message):
     chats.append(chat)
     conversations[conversation_id] = []
     await message.reply("Hi!\nI'm ChatGPT bot!\nAsk me something through /ask")
+
 
 @dp.message_handler(commands=['ask'])
 async def ask_gpt(message: types.Message):
@@ -79,6 +70,7 @@ async def ask_gpt(message: types.Message):
     else:
         LOGGER.error(f"Exception during parsing response. res: {response}")
         await message.reply("Some exception happened during parsing response. Please re-ask your question.")
+
 
 if __name__ == '__main__':
     executor.start_polling(dp, skip_updates=True)
