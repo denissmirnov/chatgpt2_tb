@@ -19,7 +19,7 @@ class GptApiClient:
         req = GptRequest(query=query, conversation_id=conversation_id, parent_id=parent_id, account_id=account_id)
         url = self.url + "/api/v1/ask"
         async with httpx.AsyncClient() as client:
-            resp = await client.post(url, json=req.to_dict(), timeout=120)
+            resp = await client.post(url, json=req.to_dict(), timeout=240)
 
         res = None
         try:
