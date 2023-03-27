@@ -9,6 +9,7 @@ class GptRequest(BaseModel):
     conversation_id: Optional[UUID]
     parent_id: Optional[UUID]
     account_id: Optional[int]
+    use_free_node: Optional[bool]
 
     def to_dict(self):
         data = self.dict()
