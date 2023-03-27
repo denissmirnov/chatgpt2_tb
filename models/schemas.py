@@ -28,7 +28,7 @@ class AskResponse(BaseModel):
 
 class Chat(BaseModel):
     chat_id: int
-    conversation_id: UUID
+    conversation_id: Optional[UUID]
 
 
 class Conversation(BaseModel):

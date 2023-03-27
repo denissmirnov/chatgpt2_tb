@@ -29,10 +29,8 @@ setup_logging()
 
 @dp.message_handler(commands=['start'])
 async def start(message: types.Message):
-    conversation_id = uuid.uuid4()
-    chat = Chat(chat_id=message.chat.id, conversation_id=conversation_id)
+    chat = Chat(chat_id=message.chat.id, conversation_id=None)
     chats.append(chat)
-    conversations[conversation_id] = []
     await message.reply("Hi!\nI'm ChatGPT bot!\nAsk me something through /ask")
 
 
@@ -49,7 +47,7 @@ async def ask_gpt(message: types.Message):
         parent_id = msg.parent_id
         account_id = msg.account_id
     else:
-        parent_id = uuid.uuid4()
+        parent_id = None
         account_id = None
 
     query = message.text.replace('/ask ', '')
@@ -63,7 +61,10 @@ async def ask_gpt(message: types.Message):
             account_id=response.account_id
         )
 
-        conversations[conversation_id].append(msg)
+        if response.conversation_id not in conversations:
+            conversations[response.conversation_id] = []
+
+        conversations[response.conversation_id].append(msg)
 
         LOGGER.info("Response was received")
         await message.reply(response.message, parse_mode=ParseMode.MARKDOWN)
